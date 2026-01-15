@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#6d28d9">
+    <meta name="description" content="App de reseñas personal">
+    <title>ReviewApp - Tu app de reseñas</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon-512x512.png" type="image/png">
+    <link rel="apple-touch-icon" href="icon-512x512.png">
+</head>
+<body>
+    <!-- Menú de navegación -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <button class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <h1 class="logo">ReviewApp</h1>
+            <button class="theme-toggle" id="themeToggle">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Menú lateral -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Menú</h2>
+            <button class="close-menu" id="closeMenu">×</button>
+        </div>
+        <ul class="menu">
+            <li><a href="#home" class="menu-item active" data-page="home">🏠 Home</a></li>
+            <li><a href="#reviews" class="menu-item" data-page="reviews">📝 Todas las reseñas</a></li>
+            <li><a href="#top-rated" class="menu-item" data-page="top-rated">⭐ Mejor puntuadas</a></li>
+            <li><a href="#favorites" class="menu-item" data-page="favorites">❤️ Favoritas</a></li>
+            <li><a href="#categories" class="menu-item" data-page="categories">🏷️ Categorías</a></li>
+            <li><button class="menu-item exit-btn" id="exitApp">🚪 Salir</button></li>
+        </ul>
+    </div>
+
+    <!-- Overlay para cerrar menú -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Contenido principal -->
+    <main class="main-content" id="mainContent">
+        <!-- Página Home -->
+        <div class="page active" id="homePage">
+            <header class="page-header">
+                <h2>Agregar Nueva Reseña</h2>
+            </header>
+            
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Buscar por nombre o categoría...">
+                <div class="search-results" id="searchResults"></div>
+            </div>
+
+            <form id="reviewForm" class="review-form">
+                <div class="form-group">
+                    <label for="reviewName">Nombre *</label>
+                    <input type="text" id="reviewName" required placeholder="Ej: Película XYZ, Restaurante ABC">
+                </div>
+
+                <div class="form-group">
+                    <label>Puntuación (1-10)</label>
+                    <div class="rating-input">
+                        <input type="number" id="ratingValue" min="1" max="10" step="0.5" value="5" required>
+                        <div class="stars-container">
+                            <div class="stars" id="starsDisplay">
+                                <!-- Estrellas se generan dinámicamente -->
+                            </div>
+                            <span class="rating-text" id="ratingText">5.0</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reviewCategory">Categoría *</label>
+                    <input type="text" id="reviewCategory" required placeholder="Ej: Películas, Restaurantes, Libros">
+                    <div class="categories-list" id="categoriesList">
+                        <!-- Categorías existentes -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="reviewNotes">Notas de reseña</label>
+                    <textarea id="reviewNotes" rows="4" placeholder="Escribe tus comentarios, opiniones y detalles aquí..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="reviewFavorite">
+                        <span class="checkmark"></span>
+                        Marcar como favorito ❤️
+                    </label>
+                </div>
+
+                <button type="submit" class="submit-btn">Guardar Reseña</button>
+            </form>
+        </div>
+
+        <!-- Página Todas las reseñas -->
+        <div class="page" id="reviewsPage">
+            <header class="page-header">
+                <h2>Todas las Reseñas</h2>
+                <div class="sort-controls">
+                    <select id="sortReviews">
+                        <option value="newest">Más recientes</option>
+                        <option value="oldest">Más antiguas</option>
+                        <option value="highest">Mayor puntuación</option>
+                        <option value="lowest">Menor puntuación</option>
+                        <option value="name">Por nombre</option>
+                    </select>
+                </div>
+            </header>
+            <div class="reviews-grid" id="allReviewsGrid">
+                <!-- Reseñas se cargan dinámicamente -->
+            </div>
+        </div>
+
+        <!-- Página Mejor puntuadas -->
+        <div class="page" id="topRatedPage">
+            <header class="page-header">
+                <h2>Mejor Puntuadas (7+)</h2>
+            </header>
+            <div class="reviews-grid" id="topRatedGrid">
+                <!-- Reseñas con puntuación > 7 -->
+            </div>
+        </div>
+
+        <!-- Página Favoritas -->
+        <div class="page" id="favoritesPage">
+            <header class="page-header">
+                <h2>Reseñas Favoritas</h2>
+            </header>
+            <div class="reviews-grid" id="favoritesGrid">
+                <!-- Reseñas favoritas -->
+            </div>
+        </div>
+
+        <!-- Página Categorías -->
+        <div class="page" id="categoriesPage">
+            <header class="page-header">
+                <h2>Categorías</h2>
+            </header>
+            <div class="categories-container" id="categoriesContainer">
+                <!-- Categorías se cargan dinámicamente -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal para editar reseña -->
+    <div class="modal" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Reseña</h3>
+                <button class="close-modal" id="closeEditModal">×</button>
+            </div>
+            <form id="editForm" class="review-form">
+                <input type="hidden" id="editId">
+                <div class="form-group">
+                    <label for="editName">Nombre *</label>
+                    <input type="text" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label>Puntuación (1-10)</label>
+                    <div class="rating-input">
+                        <input type="number" id="editRating" min="1" max="10" step="0.5" required>
+                        <div class="stars-container">
+                            <div class="stars" id="editStarsDisplay"></div>
+                            <span class="rating-text" id="editRatingText"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="editCategory">Categoría *</label>
+                    <input type="text" id="editCategory" required>
+                </div>
+                <div class="form-group">
+                    <label for="editNotes">Notas de reseña</label>
+                    <textarea id="editNotes" rows="4"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="editFavorite">
+                        <span class="checkmark"></span>
+                        Marcar como favorito ❤️
+                    </label>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="submit-btn">Guardar Cambios</button>
+                    <button type="button" class="delete-btn" id="deleteReviewBtn">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 ReviewApp - Tus reseñas personales</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="app.js"></script>
+    <script src="project.js"></script>
+</body>
+</html>
