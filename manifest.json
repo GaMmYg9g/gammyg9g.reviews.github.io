@@ -1,0 +1,33 @@
+{
+    "name": "ReviewApp",
+    "short_name": "ReviewApp",
+    "description": "Aplicación para gestionar tus reseñas personales",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#6d28d9",
+    "theme_color": "#6d28d9",
+    "orientation": "portrait",
+    "icons": [
+        {
+            "src": "icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["productivity", "utilities"],
+    "shortcuts": [
+        {
+            "name": "Nueva Reseña",
+            "short_name": "Nueva",
+            "description": "Crear una nueva reseña",
+            "url": "./index.html#home"
+        },
+        {
+            "name": "Ver Favoritas",
+            "short_name": "Favoritas",
+            "description": "Ver reseñas favoritas",
+            "url": "./index.html#favorites"
+        }
+    ]
+}
